@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.dropbox
+nohup.*
+*.log
+*_cache
+
+# Exclude large file
+ptt_gay_les_lda_fit.RData
