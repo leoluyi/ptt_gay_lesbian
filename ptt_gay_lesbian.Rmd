@@ -213,7 +213,7 @@ cutter <- function (text, worker) {
   
   filter_words = c(
     "推文", "站內信", "其他", "推",
-    "我.?","他.?","你.?", "想說",
+    "我.?","他.?","你.?", "想說", "本報記者",
     "所以","可以","沒有","不過","因為",
     "還是","覺得","大家","比較","感覺","時候","現在","時間",
     "可能","東西","然後","而且","自己","有點",
@@ -610,16 +610,16 @@ save(lda_fit, file = "./models/ptt_gay_les_lda_fit.RData")
 
 **Result**
 
-```{r topic models result, cache=FALSE}
+```{r lda result, cache=FALSE}
 library(lda)
 load("./models/ptt_gay_les_lda_fit.RData")
 # Top topic result
 top_docs_num <- lda_fit$document_sums %>% top.topic.documents(5)
-top_words <- lda_fit$topics %>% 
-  top.topic.words(num.words = 6, by.score = TRUE) %>% 
-  data.frame() %>% data.table()
-
-top_words %>% DT::datatable(extensions = "Responsive")
+top_words_df <- lda_fit$topics %>% 
+  top.topic.words(num.words = 8, by.score = TRUE) %>% 
+  data.frame() %>% setDT() %>% transpose()
+row.names(top_words_df) <- paste0("topic_", seq(nrow(top_words_df)))
+top_words_df %>% DT::datatable()
 ```
 
 ## word2vec
