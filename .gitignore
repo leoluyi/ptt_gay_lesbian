@@ -8,4 +8,4 @@ nohup.*
 *_cache
 
 # Exclude large file
-ptt_gay_les_lda_fit.RData
+ptt_gay_les_lda_fit*.RData
