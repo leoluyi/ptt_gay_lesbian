@@ -587,7 +587,7 @@ FindTopicsNumber_plot(result)
 
 # MCMC and model tuning parameters:
 K <- 70  # n_topic
-G <- 3000 # num.iterations
+G <- 1200 # num.iterations (about N^2, N = words in a doc)
 alpha <- 0.02
 eta <- 0.02
 
@@ -600,7 +600,7 @@ lda_fit <- lda.collapsed.gibbs.sampler(
   eta = eta, initial = NULL, burnin = 0,
   compute.log.likelihood = TRUE)
 t2 <- Sys.time()
-t2 - t1  # about 2.899927 mins on server
+t2 - t1  # about 4.581871 hours hours on server
 
 # Save Result
 save(lda_fit, file = "./models/ptt_gay_les_lda_fit.RData")
@@ -621,6 +621,33 @@ top_words_df <- lda_fit$topics %>%
 row.names(top_words_df) <- paste0("topic_", seq(nrow(top_words_df)))
 top_words_df %>% DT::datatable()
 ```
+
+### [>> LDAVis](https://leoluyi.github.io/keelung_city_image/fb_kl_ldavis/)
+
+```{r, eval=FALSE}
+library(LDAvis)
+theta <- apply(lda_fit$document_sums + alpha, 2, 
+               function(x) x/sum(x)) %>% t()
+phi <- apply(t(lda_fit$topics) + eta, 2, 
+             function(x) x/sum(x)) %>% t()
+
+lda_view <- list(phi = phi,
+                 theta = theta,
+                 doc.length = doc.length,
+                 vocab = vocab_,
+                 term.frequency = term.frequency)
+
+# create the JSON object to feed the visualization:
+json <- LDAvis::createJSON(phi = lda_view$phi, 
+                   theta = lda_view$theta, 
+                   doc.length = lda_view$doc.length, 
+                   vocab = lda_view$vocab, 
+                   term.frequency = lda_view$term.frequency)
+serVis(json, out.dir = 'ldavis', open.browser = FALSE)
+```
+
+
+----------------------------
 
 ## word2vec
 
