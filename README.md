@@ -1,6 +1,7 @@
 # PTT gay lesbian
 
-[Report](http://leoluyi.github.io/ptt_gay_lesbian/ptt_gay_lesbian.html)
+- [Report](http://leoluyi.github.io/ptt_gay_lesbian/ptt_gay_lesbian.html)
+- [LDAVis](https://leoluyi.github.io/ptt_gay_lesbian/ldavis/)
 
 ## Key point
 
